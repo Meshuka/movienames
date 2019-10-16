@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Movies</title>
+</head>
+<body>
+<h1>
+List of Movies to Watch:
+</h1>
+<button onclick= getMovieNames()>
+Movies here!
+</button>
+<ul>
+</ul>
+
+<script>
+
+function strike(id)
+{
+console.log(document.getElementById(id));
+document.getElementById(id).style="text-decoration: line-through";
+}
+
+var root= "http://localhost:3000/movies";
+
+async function getMovieNames(){
+try{
+var result = await axios.get(root);
+for (var i=0; i< result.data.length; i++){
+var list= document.createElement("li");
+
+list.innerHTML = result.data[i].name; 
+list.id= "listid-" + i;
+
+var btn = document.createElement("button")
+btn.id= "listid-" + i;
+btn.innerHTML= "Watched";
+btn.onclick = function(){
+strike(this.id)};
+
+list.appendChild(btn);
+document.getElementsByTagName("ul")[0].appendChild(list);
+}
+}
+catch(err){
+console.error(err);
+}
+}
+</script>
+</body>
+</html>
